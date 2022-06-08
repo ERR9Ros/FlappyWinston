@@ -9,7 +9,7 @@ var score = 0;
 var highScore = 0;
 var savedhighscore = 0;
 
-var lost = 0;
+var lost = false;
 
 var speed = 60;
 
@@ -30,66 +30,32 @@ frameRate(speed);
     rect(0, 350, 400, 60);
 
 //Pipe movement
-    pipe[0]-=5;
-    if (pipe[0] === -20) {
-        pipe[0] = 400;
-        Pheight[0] = random(50, 170);
-        if (lost < 2) {
-            score+=1;
-        }
+for (var i = 0; i < pipe.length; i++) {
+  pipe[i]-=5;
+  if (pipe[i] === -20) {
+      pipe[i] = 400;
+      Pheight[i] = random(50, 170);
+      if (lost != false) {
+          score+=1;
+      }
 
-    }
-    pipe[1]-=5;
-    if (pipe[1] === -20) {
-        pipe[1] = 400;
-        Pheight[1] = random(50, 170);
-    }
-    pipe[2]-=5;
-    if (pipe[2] === -20) {
-        pipe[2] = 400;
-        Pheight[2] = random(50, 170);
-    }
-    pipe[3]-=5;
-    if (pipe[3] === -20) {
-        pipe[3] = 400;
-        Pheight[3] = random(50, 170);
-    }
-    pipe[4]-=5;
-    if (pipe[4] === -20) {
-        pipe[4] = 400;
-        Pheight[4] = random(50, 170);
-    }
-    pipe[5]-=5;
-    if (pipe[5] === -20) {
-        pipe[5] = 400;
-        Pheight[5] = random(50, 170);
-    }
-    pipe[6]-=5;
-    if (pipe[6] === -20) {
-        pipe[6] = 400;
-        Pheight[6] = random(50, 170);
-    }
-    pipe[7]-=5;
-    if (pipe[7] === -20) {
-        pipe[7] = 400;
-        Pheight[7] = random(50, 170);
-    }
+  }
+}
 
 //Pipes
-
-    fill(45, 125, 15);
-    rect(pipe[0], 0, 20, Pheight[0]);
-    rect(pipe[1], 0, 20, Pheight[1]);
-    rect(pipe[2], 0, 20, Pheight[2]);
-    rect(pipe[3], 0, 20, Pheight[3]);
-
-    rect(pipe[4], 400-Pheight[4], 20, Pheight[4]);
-    rect(pipe[5], 400-Pheight[5], 20, Pheight[5]);
-    rect(pipe[6], 400-Pheight[6], 20, Pheight[6]);
-    rect(pipe[7], 400-Pheight[7], 20, Pheight[7]);
+for (var i = 0; i < pipe.length; i++) {
+  fill(45, 125, 15);
+  if (i <= 3) {
+    rect(pipe[i], 0, 20, Pheight[i]);
+  } else if (i > 3) {
+    rect(pipe[i], 400-Pheight[i], 20, Pheight[i]);
+  }
+}
 
 //Bird
-    image(getImage("creatures/Winston"), 100, birdY, 40, 40);
+fill(0);
+ellipse(100, birdY, 40, 40);
+
     birdY+=1;
     while(birdY === 360) {
         birdY-=1;
@@ -104,56 +70,16 @@ frameRate(speed);
 
 //collision
 if (score > 0) {
-    if (birdY < Pheight[0]) {
-        if (135 === pipe[0]) {
-            lost+=1;
+  for (var i = 0; i < pipe.length; i++) {
+    if (birdY < Pheight[i]) {
+        if (135 === pipe[i]) {
+          lost = true;
         }
     }
-
-    if (birdY < Pheight[1]) {
-        if (135 === pipe[1]) {
-            lost+=1;
-        }
-    }
-
-    if (birdY < Pheight[2]) {
-        if (135 === pipe[2]) {
-            lost+=1;
-        }
-    }
-
-    if (birdY < Pheight[3]) {
-        if (135 === pipe[3]) {
-            lost+=1;
-        }
-    }
-
-    if (birdY > 360-Pheight[4]) {
-        if (135 === pipe[4]) {
-            lost+=1;
-        }
-    }
-
-    if (birdY > 360-Pheight[5]) {
-        if (135 === pipe[5]) {
-            lost+=1;
-        }
-    }
-
-    if (birdY > 360-Pheight[6]) {
-        if (135 === pipe[6]) {
-            lost+=1;
-        }
-    }
-
-    if (birdY > 360-Pheight[7]) {
-        if (135 === pipe[7]) {
-            lost+=1;
-        }
-    }
+  }
 }
 //Lost
-      if (lost > 1) {
+      if (lost != false) {
         frameRate(60);
     //GameOver screen
         fill(0, 247, 255);
@@ -219,31 +145,31 @@ if (score > 0) {
         gamemenu = 1;
         if (keyCode === 49) {
             speed = 40;
-            lost = 1;
+            lost = false;
             birdY = height/2-20;
             score = 0;
         }
         if (keyCode === 50) {
             speed = 60;
-            lost = 1;
+            lost = false;
             birdY = height/2-20;
             score = 0;
         }
         if (keyCode === 51) {
             speed = 80;
-            lost = 1;
+            lost = false;
             birdY = height/2-20;
             score = 0;
         }
         if (keyCode === 52) {
             speed = 100;
-            lost = 1;
+            lost = false;
             birdY = height/2-20;
             score = 0;
         }
         if (keyCode === 53) {
             speed = 120;
-            lost = 1;
+            lost = false;
             birdY = height/2-20;
             score = 0;
         }
@@ -253,7 +179,7 @@ if (score > 0) {
         }
         if (keyCode === SHIFT) {
             birdY = height/2-20;
-            lost = 1;
+            lost = false;
             score = 0;
             gamemenu = 1;
         }

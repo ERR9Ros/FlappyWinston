@@ -18,7 +18,17 @@ var info2 = 900;
 
 var gamemenu = 0;
 
-draw = function() {
+function setup() {
+  var cnv = createCanvas(windowWidth, windowHeight);
+  cnv.position(0, 0);
+}
+
+function windowResized() {
+  var cnv = createCanvas(windowWidth, windowHeight);
+  cnv.position(0, 0);
+}
+
+function draw() {
 frameRate(speed);
 
 //setup
